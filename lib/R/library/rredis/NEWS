@@ -1,0 +1,77 @@
+1.7.0:
+- We implemented a great suggestion by Simon Urbanek. Values obtained from
+  Redis that are *not* serialized R objects are now decorated with an attribute
+  named "redis string value." The package uses this to automatically maintain
+  fidelity of the original Redis value through repeated download/upload cycles.
+  Previous versions of the rredis package uploaded everything as serialized R
+  values unless explictly told otherwise.  
+- Set `options('redis:num'=TRUE)` to return Redis "`:`" messages as numeric
+  values. This was the default behavior of the rredis package for all versions
+  up to 1.6.9. For versions of the R package later than that, redis "`:`"
+  messages are returned as raw Redis string values to correspond to the data
+  types stored in Redis.  Redis commands affected by this option include all
+  increment and decrement operations.
+
+1.6.8.2:
+- The TCP Nagle disabling scheme has been improved. The default remains
+  standard R connections.
+- A bug in the Lua script function 'redisEval' was fixed.
+
+1.6.8:
+- The package now includes support for Redis bit operations thanks to
+  code contributed by Kenny Helsens.
+- Wush Wu helped to add a new performance option on redisConnect to bring the
+  rredis package closer to the performance of the hiredis C library. Use the
+  nodelay=TRUE option to disable the TCP Nagle congestion control algorithm,
+  which can dramatically improve performance especially for frequent short
+  transactions, at the expense of basically allowing Redis to take over your
+  network (diable TCP Nagle at your own risk, and only enable this option if
+  you really need to). We include this option because that's what hiredis does
+  by default (?!!), and we want to make this performance gain available.
+  This TCP trickery unfortunately introduced a little bit of C code.
+- Use the `redisCmd` function to easily issue *any* Redis command, even
+  if the R package does not yet have a wrapper function for it. Useul also
+  for prototyping. This has been available for a while but people don't
+  seem to know about it.
+- We've cut back and streamlined code when returning raw values and,
+  based on a good suggestion of sherbert, there is now a unified way to return
+  raw values across all functions that retrieve stored values from Redis.
+  Simply add the `raw=TRUE` argument to skip unserialization of the returned
+  result.
+
+1.6.7:
+- Nonblocking connections in R are problematic, we switched
+  to blocking mode.
+- Added redisBRPopLPush
+- Added connection timeout option to redisConnect
+- Added 'eval' lua scripting functions
+
+1.6.6:
+- Fixed a bug in HMSet.
+
+1.6.5:
+- Added missing HMGet function.
+- Added generic redis function.
+
+1.6.3:
+- Support for new redisInfo format
+- Improved interrupt handling during communication
+- Minor man page fixes
+
+Significant changes in version 1.6:
+- Transactions are supported.
+- Pub/sub is supported.
+- Better support for raw value types across the board.
+
+Significant changes in version 1.4:
+- Many bugs were fixed in the sorted sets (redisZ*) functions.
+- New unit tests for sorted set functions were added.
+
+Significant changes in version 1.2:
+1. We completely revamped communication with the Redis server, eliminating
+   in-line messaging in anticipation of it's demise in future Redis versions.
+   We also make a better effort to minimize copying by R prior to sending
+   a message.
+
+2. Added support for Redis hashes and ordered sets. The R/Redis client now
+   fully supports all Redis types.

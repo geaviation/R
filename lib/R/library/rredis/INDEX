@@ -1,0 +1,115 @@
+redisAuth               Redis authentication.
+redisBLPop              Blocking List Pop
+redisBRPop              Blocking List Pop
+redisBRPopLPush         Remove the tail from a list, blocking if it
+                        does not exist, pushing to another.
+redisBgRewriteAOF       redisBgRewriteAOF
+redisBgSave             redisBgSave
+redisBitCount           Redis BITCOUNT - count all bits in key
+redisBitOp              Redis BITOP - execute bitoperations on multiple
+                        bitsets
+redisClose              Close an open connection to a Redis server.
+redisCmd                General Redis Interface Function
+redisConnect            Connect to a Redis server.
+redisDBSize             Return the number of keys in the current Redis
+                        database.
+redisDelete             Delete a key and associated value from Redis.
+redisDiscard            redisDiscard
+redisEval               Evaluate a Lua script in the Redis server.
+redisExec               redisExec
+redisExists             Test the existence of a key in the Redis
+                        database.
+redisExpire             Set a timeout on the specified key.
+redisExpireAt           Set a timeout on the specified key.
+redisFlushAll           Delete all keys and values from all databases.
+redisFlushDB            Delete all keys and values from the current
+                        database.
+redisGet                Retrieve a value from Redis.
+redisGetBit             Redis BITSET gets - get binary value
+redisGetResponse        redisGetResponse
+redisGetSet             Store a value in Redis, returning the
+                        previously defined value.
+redisHDel               Delete a hash value.
+redisHExists            Test the existence of a hash.
+redisHFields            Redis hash fields.
+redisHGet               Retrieve a hased value from Redis.
+redisHGetAll            Redis hash fields and values.
+redisHIncrBy            Increment a value.
+redisHKeys              Redis hash fields.
+redisHLen               Redis hash length.
+redisHMGet              Retrieve a list of hash values.
+redisHMSet              Store a list of hash values.
+redisHSet               Store a hash value in Redis.
+redisHVals              Redis hash values.
+redisIncr               Increment or decrement Redis values.
+redisInfo               redisInfo
+redisKeys               Return a list of all keys in the active Redis
+                        database.
+redisLIndex             Retrieve a value from a Redis 'list.'
+redisLLen               Redis list length.
+redisLPop               Remove the first element from a list.
+redisLPush              Add a value to the head tail of a list.
+redisLRange             Copy values from a list.
+redisLRem               Remove elements from a list.
+redisLSet               Set a value within a list.
+redisLTrim              Trim a list.
+redisMGet               Retrieve one or more values from Redis.
+redisMSet               Set one or more key/value pairs in the Redis
+                        database.
+redisMonitorChannels    redisMonitorChannels
+redisMove               Move the specified key/value pair to another
+                        database.
+redisMulti              redisMulti
+redisPersist            Clear expiration flags for a key
+redisPublish            redisPublish
+redisRPop               Remove the last element from a list.
+redisRPopLPush          Remove the tail from a list, pushing to
+                        another.
+redisRandomKey          Return a randomly selected key from the
+                        currently selected database.
+redisRename             Rename a key.
+redisSAdd               Add an element to a set.
+redisSCard              Set cardinality
+redisSDiff              Return the difference of two or more sets.
+redisSDiffStore         Store the difference of two or more sets.
+redisSInter             Find and return the intersection of two or more
+                        sets.
+redisSInterStore        Store intersection of two or more sets.
+redisSIsMember          Test for set membership
+redisSMembers           List elements of a set.
+redisSMove              Move a set element.
+redisSPop               Remove and return an element from a set.
+redisSRandMember        Choose a random element from a set
+redisSRem               Remove an element from a set.
+redisSUnion             Return the union of two or more sets.
+redisSUnionStore        Store the union of two or more sets.
+redisSave               redisSave
+redisSelect             Select a redis database.
+redisSet                Store a value in Redis.
+redisSetBit             Redis BITSET - set binary value
+redisSetContext         redisSetContext
+redisSetPipeline        Set the Redis message blocking state.
+redisShutdown           redisShutdown
+redisSlaveOf            redisSlaveOf
+redisSort               redisSort
+redisSubscribe          redisSubscribe
+redisTTL                Return the time to live for a key set to
+                        expire.
+redisType               Query a Redis value type.
+redisUnsubscribe        redisUnsubscribe
+redisUnwatch            redisUnwatch
+redisWatch              redisWatch
+redisZAdd               redisZAdd
+redisZCard              redisZCard.Rd
+redisZCount             redisZCount
+redisZIncrBy            redisZIncrBy
+redisZInterStore        redisZInterStore
+redisZRange             redisZRange
+redisZRangeByScore      redisZRangeByScore
+redisZRank              redisZRank
+redisZRem               redisZRem
+redisZRemRangeByRank    redisZRemRangeByRank.Rd
+redisZRemRangeByScore   redisZRemRangeByScore.Rd
+redisZScore             redisZScore
+redisZUnionStore        redisZUnionStore
+rredis                  Redis interface package.

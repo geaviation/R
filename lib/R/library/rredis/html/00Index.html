@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>R: "Redis" Key/Value Database Client</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+<h1> "Redis" Key/Value Database Client
+<img class="toplogo" src="../../../doc/html/logo.jpg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;rredis&rsquo; version 1.7.0</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
+<li><a href="../NEWS">Package NEWS</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<p style="text-align: center;">
+<a href="#R">R</a>
+</p>
+
+
+<h2><a name="R">-- R --</a></h2>
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="redisAuth.html">redisAuth</a></td>
+<td>Redis authentication.</td></tr>
+<tr><td style="width: 25%;"><a href="redisBgRewriteAOF.html">redisBgRewriteAOF</a></td>
+<td>redisBgRewriteAOF</td></tr>
+<tr><td style="width: 25%;"><a href="redisBgSave.html">redisBgSave</a></td>
+<td>redisBgSave</td></tr>
+<tr><td style="width: 25%;"><a href="redisBitCount.html">redisBitCount</a></td>
+<td>Redis BITCOUNT - count all bits in key</td></tr>
+<tr><td style="width: 25%;"><a href="redisBitOp.html">redisBitOp</a></td>
+<td>Redis BITOP - execute bitoperations on multiple bitsets</td></tr>
+<tr><td style="width: 25%;"><a href="redisBLPop.html">redisBLPop</a></td>
+<td>Blocking List Pop</td></tr>
+<tr><td style="width: 25%;"><a href="redisBRPop.html">redisBRPop</a></td>
+<td>Blocking List Pop</td></tr>
+<tr><td style="width: 25%;"><a href="redisBRPopLPush.html">redisBRPopLPush</a></td>
+<td>Remove the tail from a list, blocking if it does not exist, pushing to another.</td></tr>
+<tr><td style="width: 25%;"><a href="redisClose.html">redisClose</a></td>
+<td>Close an open connection to a Redis server.</td></tr>
+<tr><td style="width: 25%;"><a href="redisCmd.html">redisCmd</a></td>
+<td>General Redis Interface Function</td></tr>
+<tr><td style="width: 25%;"><a href="redisConnect.html">redisConnect</a></td>
+<td>Connect to a Redis server.</td></tr>
+<tr><td style="width: 25%;"><a href="redisDBSize.html">redisDBSize</a></td>
+<td>Return the number of keys in the current Redis database.</td></tr>
+<tr><td style="width: 25%;"><a href="incr.html">redisDecr</a></td>
+<td>Increment or decrement Redis values.</td></tr>
+<tr><td style="width: 25%;"><a href="incr.html">redisDecrBy</a></td>
+<td>Increment or decrement Redis values.</td></tr>
+<tr><td style="width: 25%;"><a href="redisDelete.html">redisDelete</a></td>
+<td>Delete a key and associated value from Redis.</td></tr>
+<tr><td style="width: 25%;"><a href="redisDiscard.html">redisDiscard</a></td>
+<td>redisDiscard</td></tr>
+<tr><td style="width: 25%;"><a href="redisEval.html">redisEval</a></td>
+<td>Evaluate a Lua script in the Redis server.</td></tr>
+<tr><td style="width: 25%;"><a href="redisExec.html">redisExec</a></td>
+<td>redisExec</td></tr>
+<tr><td style="width: 25%;"><a href="redisExists.html">redisExists</a></td>
+<td>Test the existence of a key in the Redis database.</td></tr>
+<tr><td style="width: 25%;"><a href="redisExpire.html">redisExpire</a></td>
+<td>Set a timeout on the specified key.</td></tr>
+<tr><td style="width: 25%;"><a href="redisExpireAt.html">redisExpireAt</a></td>
+<td>Set a timeout on the specified key.</td></tr>
+<tr><td style="width: 25%;"><a href="redisFlushAll.html">redisFlushAll</a></td>
+<td>Delete all keys and values from all databases.</td></tr>
+<tr><td style="width: 25%;"><a href="redisFlushDB.html">redisFlushDB</a></td>
+<td>Delete all keys and values from the current database.</td></tr>
+<tr><td style="width: 25%;"><a href="redisGet.html">redisGet</a></td>
+<td>Retrieve a value from Redis.</td></tr>
+<tr><td style="width: 25%;"><a href="redisGetBit.html">redisGetBit</a></td>
+<td>Redis BITSET gets - get binary value</td></tr>
+<tr><td style="width: 25%;"><a href="redisSetContext.html">redisGetContext</a></td>
+<td>redisSetContext</td></tr>
+<tr><td style="width: 25%;"><a href="redisGetResponse.html">redisGetResponse</a></td>
+<td>redisGetResponse</td></tr>
+<tr><td style="width: 25%;"><a href="redisGetSet.html">redisGetSet</a></td>
+<td>Store a value in Redis, returning the previously defined value.</td></tr>
+<tr><td style="width: 25%;"><a href="redisHDel.html">redisHDel</a></td>
+<td>Delete a hash value.</td></tr>
+<tr><td style="width: 25%;"><a href="redisHExists.html">redisHExists</a></td>
+<td>Test the existence of a hash.</td></tr>
+<tr><td style="width: 25%;"><a href="redisHFields.html">redisHFields</a></td>
+<td>Redis hash fields.</td></tr>
+<tr><td style="width: 25%;"><a href="redisHGet.html">redisHGet</a></td>
+<td>Retrieve a hased value from Redis.</td></tr>
+<tr><td style="width: 25%;"><a href="redisHGetAll.html">redisHGetAll</a></td>
+<td>Redis hash fields and values.</td></tr>
+<tr><td style="width: 25%;"><a href="redisHIncrBy.html">redisHIncrBy</a></td>
+<td>Increment a value.</td></tr>
+<tr><td style="width: 25%;"><a href="redisHIncrBy.html">redisHIncrByFloat</a></td>
+<td>Increment a value.</td></tr>
+<tr><td style="width: 25%;"><a href="redisHKeys.html">redisHKeys</a></td>
+<td>Redis hash fields.</td></tr>
+<tr><td style="width: 25%;"><a href="redisHLen.html">redisHLen</a></td>
+<td>Redis hash length.</td></tr>
+<tr><td style="width: 25%;"><a href="redisHMGet.html">redisHMGet</a></td>
+<td>Retrieve a list of hash values.</td></tr>
+<tr><td style="width: 25%;"><a href="redisHMSet.html">redisHMSet</a></td>
+<td>Store a list of hash values.</td></tr>
+<tr><td style="width: 25%;"><a href="redisHSet.html">redisHSet</a></td>
+<td>Store a hash value in Redis.</td></tr>
+<tr><td style="width: 25%;"><a href="redisHVals.html">redisHVals</a></td>
+<td>Redis hash values.</td></tr>
+<tr><td style="width: 25%;"><a href="incr.html">redisIncr</a></td>
+<td>Increment or decrement Redis values.</td></tr>
+<tr><td style="width: 25%;"><a href="incr.html">redisIncrBy</a></td>
+<td>Increment or decrement Redis values.</td></tr>
+<tr><td style="width: 25%;"><a href="incr.html">redisIncrByFloat</a></td>
+<td>Increment or decrement Redis values.</td></tr>
+<tr><td style="width: 25%;"><a href="redisInfo.html">redisInfo</a></td>
+<td>redisInfo</td></tr>
+<tr><td style="width: 25%;"><a href="redisKeys.html">redisKeys</a></td>
+<td>Return a list of all keys in the active Redis database.</td></tr>
+<tr><td style="width: 25%;"><a href="redisLIndex.html">redisLIndex</a></td>
+<td>Retrieve a value from a Redis 'list.'</td></tr>
+<tr><td style="width: 25%;"><a href="redisLLen.html">redisLLen</a></td>
+<td>Redis list length.</td></tr>
+<tr><td style="width: 25%;"><a href="redisLPop.html">redisLPop</a></td>
+<td>Remove the first element from a list.</td></tr>
+<tr><td style="width: 25%;"><a href="redisLPush.html">redisLPush</a></td>
+<td>Add a value to the head tail of a list.</td></tr>
+<tr><td style="width: 25%;"><a href="redisLRange.html">redisLRange</a></td>
+<td>Copy values from a list.</td></tr>
+<tr><td style="width: 25%;"><a href="redisLRem.html">redisLRem</a></td>
+<td>Remove elements from a list.</td></tr>
+<tr><td style="width: 25%;"><a href="redisLSet.html">redisLSet</a></td>
+<td>Set a value within a list.</td></tr>
+<tr><td style="width: 25%;"><a href="redisLTrim.html">redisLTrim</a></td>
+<td>Trim a list.</td></tr>
+<tr><td style="width: 25%;"><a href="redisMGet.html">redisMGet</a></td>
+<td>Retrieve one or more values from Redis.</td></tr>
+<tr><td style="width: 25%;"><a href="redisMonitorChannels.html">redisMonitorChannels</a></td>
+<td>redisMonitorChannels</td></tr>
+<tr><td style="width: 25%;"><a href="redisMove.html">redisMove</a></td>
+<td>Move the specified key/value pair to another database.</td></tr>
+<tr><td style="width: 25%;"><a href="redisMSet.html">redisMSet</a></td>
+<td>Set one or more key/value pairs in the Redis database.</td></tr>
+<tr><td style="width: 25%;"><a href="redisMulti.html">redisMulti</a></td>
+<td>redisMulti</td></tr>
+<tr><td style="width: 25%;"><a href="redisPersist.html">redisPersist</a></td>
+<td>Clear expiration flags for a key</td></tr>
+<tr><td style="width: 25%;"><a href="redisExpire.html">redisPexpire</a></td>
+<td>Set a timeout on the specified key.</td></tr>
+<tr><td style="width: 25%;"><a href="redisExpireAt.html">redisPexpireAt</a></td>
+<td>Set a timeout on the specified key.</td></tr>
+<tr><td style="width: 25%;"><a href="redisTTL.html">redisPTTL</a></td>
+<td>Return the time to live for a key set to expire.</td></tr>
+<tr><td style="width: 25%;"><a href="redisPublish.html">redisPublish</a></td>
+<td>redisPublish</td></tr>
+<tr><td style="width: 25%;"><a href="redisRandomKey.html">redisRandomKey</a></td>
+<td>Return a randomly selected key from the currently selected database.</td></tr>
+<tr><td style="width: 25%;"><a href="redisRename.html">redisRename</a></td>
+<td>Rename a key.</td></tr>
+<tr><td style="width: 25%;"><a href="redisRPop.html">redisRPop</a></td>
+<td>Remove the last element from a list.</td></tr>
+<tr><td style="width: 25%;"><a href="redisRPopLPush.html">redisRPopLPush</a></td>
+<td>Remove the tail from a list, pushing to another.</td></tr>
+<tr><td style="width: 25%;"><a href="redisLPush.html">redisRPush</a></td>
+<td>Add a value to the head tail of a list.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSAdd.html">redisSAdd</a></td>
+<td>Add an element to a set.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSave.html">redisSave</a></td>
+<td>redisSave</td></tr>
+<tr><td style="width: 25%;"><a href="redisSCard.html">redisSCard</a></td>
+<td>Set cardinality</td></tr>
+<tr><td style="width: 25%;"><a href="redisSDiff.html">redisSDiff</a></td>
+<td>Return the difference of two or more sets.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSDiffStore.html">redisSDiffStore</a></td>
+<td>Store the difference of two or more sets.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSelect.html">redisSelect</a></td>
+<td>Select a redis database.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSet.html">redisSet</a></td>
+<td>Store a value in Redis.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSetBit.html">redisSetBit</a></td>
+<td>Redis BITSET - set binary value</td></tr>
+<tr><td style="width: 25%;"><a href="redisSetPipeline.html">redisSetBlocking</a></td>
+<td>Set the Redis message blocking state.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSetContext.html">redisSetContext</a></td>
+<td>redisSetContext</td></tr>
+<tr><td style="width: 25%;"><a href="redisSetPipeline.html">redisSetPipeline</a></td>
+<td>Set the Redis message blocking state.</td></tr>
+<tr><td style="width: 25%;"><a href="redisShutdown.html">redisShutdown</a></td>
+<td>redisShutdown</td></tr>
+<tr><td style="width: 25%;"><a href="redisSInter.html">redisSInter</a></td>
+<td>Find and return the intersection of two or more sets.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSInterStore.html">redisSInterStore</a></td>
+<td>Store intersection of two or more sets.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSIsMember.html">redisSIsMember</a></td>
+<td>Test for set membership</td></tr>
+<tr><td style="width: 25%;"><a href="redisSlaveOf.html">redisSlaveOf</a></td>
+<td>redisSlaveOf</td></tr>
+<tr><td style="width: 25%;"><a href="redisSMembers.html">redisSMembers</a></td>
+<td>List elements of a set.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSMove.html">redisSMove</a></td>
+<td>Move a set element.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSort.html">redisSort</a></td>
+<td>redisSort</td></tr>
+<tr><td style="width: 25%;"><a href="redisSPop.html">redisSPop</a></td>
+<td>Remove and return an element from a set.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSRandMember.html">redisSRandMember</a></td>
+<td>Choose a random element from a set</td></tr>
+<tr><td style="width: 25%;"><a href="redisSRem.html">redisSRem</a></td>
+<td>Remove an element from a set.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSubscribe.html">redisSubscribe</a></td>
+<td>redisSubscribe</td></tr>
+<tr><td style="width: 25%;"><a href="redisSUnion.html">redisSUnion</a></td>
+<td>Return the union of two or more sets.</td></tr>
+<tr><td style="width: 25%;"><a href="redisSUnionStore.html">redisSUnionStore</a></td>
+<td>Store the union of two or more sets.</td></tr>
+<tr><td style="width: 25%;"><a href="redisTTL.html">redisTTL</a></td>
+<td>Return the time to live for a key set to expire.</td></tr>
+<tr><td style="width: 25%;"><a href="redisType.html">redisType</a></td>
+<td>Query a Redis value type.</td></tr>
+<tr><td style="width: 25%;"><a href="redisUnsubscribe.html">redisUnsubscribe</a></td>
+<td>redisUnsubscribe</td></tr>
+<tr><td style="width: 25%;"><a href="redisUnwatch.html">redisUnwatch</a></td>
+<td>redisUnwatch</td></tr>
+<tr><td style="width: 25%;"><a href="redisWatch.html">redisWatch</a></td>
+<td>redisWatch</td></tr>
+<tr><td style="width: 25%;"><a href="redisZAdd.html">redisZAdd</a></td>
+<td>redisZAdd</td></tr>
+<tr><td style="width: 25%;"><a href="redisZCard.html">redisZCard</a></td>
+<td>redisZCard.Rd</td></tr>
+<tr><td style="width: 25%;"><a href="redisZCount.html">redisZCount</a></td>
+<td>redisZCount</td></tr>
+<tr><td style="width: 25%;"><a href="redisZIncrBy.html">redisZIncrBy</a></td>
+<td>redisZIncrBy</td></tr>
+<tr><td style="width: 25%;"><a href="redisZInterStore.html">redisZInterStore</a></td>
+<td>redisZInterStore</td></tr>
+<tr><td style="width: 25%;"><a href="redisZRange.html">redisZRange</a></td>
+<td>redisZRange</td></tr>
+<tr><td style="width: 25%;"><a href="redisZRangeByScore.html">redisZRangeByScore</a></td>
+<td>redisZRangeByScore</td></tr>
+<tr><td style="width: 25%;"><a href="redisZRank.html">redisZRank</a></td>
+<td>redisZRank</td></tr>
+<tr><td style="width: 25%;"><a href="redisZRem.html">redisZRem</a></td>
+<td>redisZRem</td></tr>
+<tr><td style="width: 25%;"><a href="redisZRemRangeByRank.html">redisZRemRangeByRank</a></td>
+<td>redisZRemRangeByRank.Rd</td></tr>
+<tr><td style="width: 25%;"><a href="redisZRemRangeByScore.html">redisZRemRangeByScore</a></td>
+<td>redisZRemRangeByScore.Rd</td></tr>
+<tr><td style="width: 25%;"><a href="redisZScore.html">redisZScore</a></td>
+<td>redisZScore</td></tr>
+<tr><td style="width: 25%;"><a href="redisZUnionStore.html">redisZUnionStore</a></td>
+<td>redisZUnionStore</td></tr>
+<tr><td style="width: 25%;"><a href="rredis-package.html">rredis</a></td>
+<td>Redis interface package.</td></tr>
+</table>
+</body></html>

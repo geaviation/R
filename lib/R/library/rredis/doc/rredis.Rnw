@@ -1,0 +1,820 @@
+%\VignetteIndexEntry{rredis Manual}
+%\VignetteDepends{rredis}
+%\VignettePackage{rredis}
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage[pdftex]{graphicx}
+\usepackage{color}
+\usepackage{xspace}
+\usepackage{fancyvrb}
+\usepackage{fancyhdr}
+\usepackage[
+     colorlinks=true,
+     linkcolor=blue,
+     citecolor=blue,
+     urlcolor=blue]
+     {hyperref}
+\usepackage{lscape}
+\usepackage{Sweave}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{mdwlist}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% define new colors for use
+\definecolor{darkgreen}{rgb}{0,0.6,0}
+\definecolor{darkred}{rgb}{0.6,0.0,0}
+\definecolor{lightbrown}{rgb}{1,0.9,0.8}
+\definecolor{brown}{rgb}{0.6,0.3,0.3}
+\definecolor{darkblue}{rgb}{0,0,0.8}
+\definecolor{darkmagenta}{rgb}{0.5,0,0.5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\bld}[1]{\mbox{\boldmath $#1$}}
+\newcommand{\shell}[1]{\mbox{$#1$}}
+\renewcommand{\vec}[1]{\mbox{\bf {#1}}}
+\newcommand{\ReallySmallSpacing}{\renewcommand{\baselinestretch}{.6}\Large\normalsize}
+\newcommand{\SmallSpacing}{\renewcommand{\baselinestretch}{1.1}\Large\normalsize}
+\def\tm{\leavevmode\hbox{$\rm {}^{TM}$}}
+
+
+\setlength{\oddsidemargin}{-.25 truein}
+\setlength{\evensidemargin}{0truein}
+\setlength{\topmargin}{-0.2truein}
+\setlength{\textwidth}{7 truein}
+\setlength{\textheight}{8.5 truein}
+\setlength{\parindent}{0.20truein}
+\setlength{\parskip}{0.10truein}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\lhead{}
+\chead{The {\tt rredis} Package}
+\rhead{}
+\lfoot{}
+\cfoot{}
+\rfoot{\thepage}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{The {\tt rredis} Package}
+\author{Bryan W. Lewis \\ 
+blewis@illposed.net\\
+{\it and contributions from many others}}
+
+\begin{document}
+\maketitle
+
+\thispagestyle{empty}
+
+\setlength{\parindent}{0in}
+\section{Introduction}
+
+The {\tt rredis} package provides a native R interface to Redis.  Redis is an
+in memory key/value database with many innovative features written by Salvatore
+Sanfilippo\footnote{https://github.com/antirez}.  It supports data persistence,
+networked client/server operation, command pipelining, structured value types,
+server replication, data expiration, clustering, multicast-like
+publish/subscribe, and it's very fast.
+
+The following simple example illustrates a typical use of the rredis package:
+\lstset{columns=flexible, basicstyle={\ttfamily\slshape}}
+\begin{lstlisting}
+> library("rredis")
+> redisConnect()
+> redisSet("x",rnorm(5))
+[1] "OK"
+> redisGet("x")
+[1]  0.808448325  0.341482747 -0.728739322 -0.105507214 -0.002349064
+\end{lstlisting}
+The key name ``x'' is associated with the R vector produced by \verb+rnorm(5)+
+and stored in Redis. Note that the R object associated with ``x'' is available 
+to other rredis clients, and indeed to any Redis client that can deserialize R
+objects.  Neither the Redis server nor the rredis clients need reside on the
+machine on which the result was generated.  Depending on the Redis server
+settings, ``x'' can be persistent--that is the value and its association with
+``x'' will persist even if the Redis server is terminated and re-started.
+
+Values in Redis are classified by type. Value types are perhaps the most
+distinguishing feature of Redis. 
+\begin{itemize}
+\item The canonical {\it string} type holds general-purpose
+objects, for example any serializable R object, text, or arbitrary binary data.
+\item The {\it list} type represents lists of Redis {\it string} objects, 
+ordered by insertion order.  Data can be accessed from lists with stack-like 
+PUSH and POP operations, or by directly indexing ranges of elements. 
+Importantly, redis lists support atomic blocking and asynchronous operation.
+\item Redis {\it sets} are unordered
+collections of unique Redis {\it strings} equipped with typical set operations
+like unions and intersections. Uniqueness is enforced by Redis at 
+insertion-time.  Redis also supports operations on ordered sets, 
+with set commands prefixed by ``Z.''
+\item Redis {\it hashes} are collections of Redis {\it strings} indexed
+by a hashed set of secondary keys.
+\end{itemize}
+
+Expiration intervals or absolute expiration times may be set on any Redis
+value. The Redis server can handle lots
+of small transactions with aplomb, easily exceeding 50,000 transactions/second
+even on very limited hardware\footnote{Redis easily exceeds 100,000 transactions/second on typical high-end workstations}. 
+
+\section{Supported Platforms}
+The Redis server is written in ANSI C and supported on most POSIX systems
+including GNU/Linux, Solaris, *BSD, and Mac OS X.
+Microsoft supports a fork of Redis for Windows available here:
+\htmladdnormallink{https://github.com/MSOpenTech/redis}{https://github.com/MSOpenTech/redis}.
+
+The rredis package for R is supported on all supported R platforms, including
+Microsoft Windows, and can connect to a Redis server running on a supported
+platform.
+
+Redis clients are available for lots of languages other than R, including
+Java, C, C\#, Ruby, Python, PHP, Tcl, Perl, Erlang, Clojure, JavaScript,
+Scala, and more...
+
+\subsection{Obtaining and Installing the Redis server}\label{install}
+
+Redis is an open-source project available from
+\htmladdnormallink{http://redis.io}{http://redis.io}, with source code
+available from Github at
+\htmladdnormallink{http://github.com/antirez/redis}{http://github.com/antirez/redis}.
+Redis is also available as an installable package for most modern GNU/Linux
+operating systems.
+
+The Redis server is completely configured by the file
+\verb+redis.conf+.
+In order to run the Redis server as a background process,
+edit this file and change the line:
+
+\noindent \verb+daemonize no+
+
+\noindent to:
+
+\noindent \verb+daemonize yes+
+
+Most default Redis configuration files are set to disconnect connected
+clients after an inactivity time out interval. It's possible to disable
+that behavior in the \verb_redis.conf_ file with:
+
+\noindent \verb+timeout 0+
+
+\noindent You may wish to peruse the rest of the configuration file and 
+experiment with the other server settings as well. Finally, start up the 
+Redis server with
+\lstset{columns=flexible, basicstyle={\ttfamily\slshape}}
+\begin{lstlisting}
+redis-server ./redis.conf
+\end{lstlisting}
+Note that some packaged versions of Redis on GNU/Linux set the Redis
+server to start on boot as a service.
+
+\section{The rredis Package by Example}
+
+We explore operation of many of the Redis features available to R
+through a few examples. Seek out the rredis package documentation and the
+excellent Redis Wiki referenced therein for additional help and examples.
+
+\subsection{Basic Operation and Redis Strings}
+Redis {\it strings} represent the canonical value type. They are used to
+store any R object that can be serialized to a bit-stream. Most R objects
+are serializable. Notable exceptions include objects with open connections
+and external reference pointers.
+
+We assume from now on that the rredis package is loaded in the running R
+session using either 
+\begin{lstlisting}
+require("rredis")
+\end{lstlisting}
+or
+\begin{lstlisting}
+library("rredis")
+\end{lstlisting}
+prior to running any example.
+
+Open a connection to a Redis server with \texttt{redisConnect}. By default,
+\texttt{redisConnect()} attempts to connect to a Redis server locally on
+a default port (6379). Explicitly specify a host and/or port to connect
+to a server running on a computer different from the computer on which
+the R session is running, for example, 
+\begin{lstlisting}
+redisConnect(host="illposed.net", port=5555)
+\end{lstlisting}
+to connect to a Redis server running on host 'illposed.net' at port 5555.
+
+
+Once connected we can easily store and retrieve values in the Redis
+database with \texttt{redisSet} and \texttt{redisGet}:
+\begin{lstlisting}
+> x <- rnorm(5)
+> print(x)
+[1] -0.3297596  1.0417431 -1.3216719 -0.8186305 -0.2705817
+> redisSet("x",x)
+[1] "OK"
+> y <- redisGet("x")
+> print(y)
+[1] -0.3297596  1.0417431 -1.3216719 -0.8186305 -0.2705817
+> all.equal(x,y)
+[1] TRUE
+> redisGet("z")
+NULL
+\end{lstlisting}
+Note that one must explicitly specify a key name (``x'' in the above example)
+and that Redis key names need not correspond to R variable names. 
+
+The SET/GET operations are atomic--that is, multiple SET and or GET operations
+are guaranteed not to simultaneously occur. 
+And \texttt{redisGet} always returns immediately, even if a value is 
+not available in which case it returns NULL (see the example).
+
+The true power of Redis becomes apparent when we share values across multiple
+clients. For example, start up a new R session and try:
+\begin{lstlisting}
+> library("rredis")
+> redisConnect()
+> y <- redisGet("x")
+> print(y)
+[1] -0.3297596  1.0417431 -1.3216719 -0.8186305 -0.2705817
+\end{lstlisting}
+
+The default behavior of Redis is to make the database persistent, so the
+value associated with ``x'' in the above examples will last until it is
+overwritten or explicitly removed, even if the Redis server is re-started.
+One may immediately purge Redis of all key/value pairs with the
+(dangerous) \texttt{redisFlushAll} command.
+
+Redis supports multiple distinct key workspaces, indexed by number. 
+Access may be switched
+between workspaces with the \texttt{redisSelect} function as illustrated below.
+We also use \texttt{redisKeys} to list all key names in the current workspace.
+\begin{lstlisting}
+> redisKeys()
+[[1]]
+[1] "x"
+
+> redisSelect(1)
+[1] "OK"
+> redisKeys()
+NULL
+
+redisSelect(0)
+> redisKeys()
+[[1]]
+[1] "x"
+\end{lstlisting}
+The number of available workspaces is user-configurable in the \verb+redis.conf+
+file (the default is 16). Note also that index values in Redis begin with 0.
+
+One may easily store and retrieve multiple objects in one operation with
+\texttt{redisMSet} and \texttt{redisMGet}. The example also illustrates how
+values may be expired (in this case, after one second) with 
+\texttt{redisExpire}.
+\begin{lstlisting}
+> redisMSet(list(x=pi,y=runif(5),z=sqrt(2)))
+[1] "OK"
+> redisMGet(c("x","y","z"))
+$x
+[1] 3.141593
+$y
+[1] 0.85396951 0.80191589 0.21750311 0.02535608 0.11929247
+$z
+[1] 1.414214
+
+> redisExpire("z",1)
+[1] 1
+> Sys.sleep(1)
+> redisGet("z")
+NULL
+\end{lstlisting}
+
+\subsection{Sharing Data with Clients other than R}
+
+Redis is a particularly convenient system for sharing data between many
+different applications. We illustrate cross-application communication with
+simple examples using R and the \texttt{redis-cli} command-line program that is
+included with the Redis server. 
+
+Store a sample value in the Redis database with the {\texttt{redis-cli}}
+program from the command line as follows:
+\begin{lstlisting}
+redis-cli set shell "Greetings, R client!"
+OK
+\end{lstlisting}
+Now, leaving the terminal window open, from an R session, try:
+\begin{lstlisting}
+> redisGet("shell")
+[1] "Greetings, R client!"
+attr(,"redis string value")
+[1] TRUE
+\end{lstlisting}
+And, voil\`{a}, R and shell communicate text through Redis.
+The returned character string value is decorated with an attribute
+named "redis string value" to indicate that the original value in
+Redis was not a serialized R object.
+
+When R values with the "redis string value" attribute are uploaded
+to Redis, R serialization is bypassed and the value is uploaded
+as raw binary data. This mechanism was introduced to preserve
+the original nature of Redis values through download/upload
+sequences. For example:
+\begin{lstlisting}
+> x <- redisGet("shell")
+> redisSet("hello", x)
+\end{lstlisting}
+We can now use the {\texttt{redis-cli}} client to recover the
+value inserted by R from the new key:
+\begin{lstlisting}
+redis-cli get hello
+"Greetings, R client!"
+\end{lstlisting}
+
+In general, however, R objects are serialized by default before
+uploading to Redis. Consider the following example:
+\begin{lstlisting}
+> redisSet("R", "Greetings, shell client!")
+\end{lstlisting}
+And now, switch over to the shell client and run:
+\begin{lstlisting}
+./redis-cli get R
+<<Partially decipherable garbage>>
+\end{lstlisting}
+This example produces undesirable results because the default behavior
+of the R \texttt{redisSet} command is to store data as R objects, which
+the shell client cannot decipher. Instead, we must encode the R object
+(in this case, a character string) in a format that shell can understand:
+\begin{lstlisting}
+> redisSet("R", charToRaw("Greetings, shell client!"))
+[1] "OK"
+\end{lstlisting}
+And now, switch over to the shell client and run:
+\begin{lstlisting}
+./redis-cli get R
+Greetings, shell client!
+\end{lstlisting}
+It can be tricky to share arbitrary R objects with other languages, but
+raw character strings usually provide a reasonable, if sometimes 
+inefficient, common tongue.
+
+The {\tt raw=TRUE} option may be set on most package functions that
+receive data, for example {\tt redisGet}. Use the {\tt{RAW}} option
+to leave the message data as is (otherwise the functions try to deserialize
+it to a standard R object). The {\tt{RAW}} format is useful for binary
+exchange of data with programs other than R.
+
+\subsection{Redis Lists}
+Redis list value types provide us with a remarkably powerful and rich set of
+operations. Redis lists may be used to set up data queues and they may be
+accessed either synchronously or asynchronously.
+
+We walk through basic Redis list operation in the first example below.
+The example shows how \texttt{redisLPush} pushes values onto a list from
+the left, and \texttt{redisRPush} pushes values from the right.
+\begin{lstlisting}
+> redisLPush("a",1)
+[1] 1
+> redisLPush("a",2)
+[1] 2
+> redisLPush("a",3)
+[1] 3
+> redisLRange("a",0,2)
+[[1]]
+[1] 3
+[[2]]
+[1] 2
+[[3]]
+[1] 1
+
+> redisLPop("a")
+[1] 3
+> redisLRange("a",0,-1)
+[[1]]
+[1] 2
+[[2]]
+[1] 1
+
+> redisRPush("a","A")
+[1] 3
+> redisRPush("a","B")
+[1] 4
+> redisLRange("a",0,-1)
+[[1]]
+[1] 2
+[[2]]
+[1] 1
+[[3]]
+[1] "A"
+[[4]]
+[1] "B"
+
+> redisRPop("a")
+[1] "B"
+\end{lstlisting}
+
+Like the \texttt{redisGet} function, \texttt{redisLPop} and \texttt{redisRPop}
+always return immediately, even when no value is available in which case they
+return NULL. Redis includes a blocking variant of the list ``Pop'' commands 
+that is illustrated in the next example.
+\begin{lstlisting}
+> redisBLPop("b",timeout=1)
+NULL
+
+> redisLPush("b",runif(5))
+[1] 1
+> redisBLPop("b",timeout=1)
+$b
+[1] 0.3423658 0.4188430 0.2494071 0.9960606 0.5643137
+\end{lstlisting}
+In the first case above, the NULL value is returned after a one-second timeout
+because no value was immediately available in the list. Once populated with
+data, the second attempt consumes the list value and returns immediately. 
+
+We can also block on multiple lists, returning when data is available
+on at least one of the lists:
+\begin{lstlisting}
+> redisFlushAll()
+[1] "OK"
+> redisLPush("b",5)
+[1] 1
+> redisBLPop(c("a","b","c"))
+$b
+[1] 5
+\end{lstlisting}
+
+Although blocking list operations seem simple, they provide an extraordinarily
+powerful environment for coordinating events between multiple R (and other
+client) processes. The following example illustrates a simple event stream
+in which data is emitted periodically by a shell script, and consumed
+and processed as events arrive by an R process.
+
+First, open an R window and block on the ``a'' and ``b'' lists:
+\begin{lstlisting}
+> redisFlushAll()
+> for (j in 1:5) {
++ x <- redisBLPop(c("a","b"))
++ print (x)
++ }
+\end{lstlisting}
+Your R session should freeze, waiting for events to process.
+
+Now, open a terminal window and navigate to the directory that contains
+the \texttt{redis-cli} program. Run (the following may all be typed on
+one line):
+\begin{lstlisting}
+for x in 1 2 3 4 5;do sleep $x; 
+  if test $x == "2";
+    then ./redis-cli lpush a $x;
+    else ./redis-cli lpush b $x;
+  fi;
+done
+
+\end{lstlisting}
+
+And now you will see your R session processing the events as they are generated
+by the shell script:
+\begin{lstlisting}
+$b
+[1] "1"
+
+$a
+[1] "2"
+
+$b
+[1] "3"
+
+$b
+[1] "4"
+
+$b
+[1] "5"
+\end{lstlisting}
+
+Now, imagine that events may be processed independently, and that they occur
+at an extraordinary rate--a rate too fast for R to keep up. The solution in 
+this case is simple, start up another R process and it will handle events
+as they come in, relieving the first R process of about half the event load.
+Still not enough, start up another, etc.
+
+Keeping in mind that the R clients can run on different computers, we realize
+that this simple example can easily lead to a very scalable parallel event
+processing system that requires very little programming effort!
+
+\subsection{Redis Sets}
+The Redis set value type operates somewhat like Redis lists, but only
+allowing unique values within a set. Sets also come equipped with the 
+expected set operations, as illustrated in the following example.
+\begin{lstlisting}
+> redisSAdd("A",runif(2))
+[1] 1
+> redisSAdd("A",55)
+[1] 1
+> redisSAdd("B",55)
+[1] 1
+> redisSAdd("B",rnorm(3))
+[1] 1
+> redisSCard("A")
+[1] 2
+> redisSDiff(c("A","B"))
+[[1]]
+[1] 0.5449955 0.7848509
+
+> redisSInter(c("A","B"))
+[[1]]
+[1] 55
+
+> redisSUnion(c("A","B"))
+[[1]]
+[1] 55
+
+[[2]]
+[1] 0.5449955 0.7848509
+
+[[3]]
+[1] -1.3153612  0.9943198 -0.3725513
+\end{lstlisting}
+Redis sets do not include blocking operations.
+
+\subsection{Future Redis Commands}
+
+Redis changes and sometimes new Redis commands are introduced. Thanks to the
+elegant design of the underlying Redis protocol, the rredis package can
+support any Redis command, even those not yet explicitly wrapped by R functions
+in the package.
+
+Use the low-level \verb+redisCmd(CMD, ...)+ function
+to perform {\it any}
+Redis operation.  The \verb+CMD+ argument must be a character
+string that represents a valid Redis command, see for example
+\htmladdnormallink{http://redis.io/commands}{http://redis.io/commands}.
+
+Replace the \verb+...+ with any additional arguments specific to the Redis
+command. Arguments that are not already in raw format will be converted to raw
+byte format, and non-character values will be serialized as R objects
+(character strings will be left as unserialized ASCII by default).
+
+Here is a simple example that emulates the \verb+redisSet+ and \verb+redisGet+
+functions:
+\begin{lstlisting}
+> redisCmd("set","x",runif(5))
+[1] "OK"
+
+> redisCmd("get","x")
+[1] 0.0006776408 0.5652672122 0.0985793471 0.5748420910 0.4098101135
+\end{lstlisting}
+
+
+
+\section{Performance Considerations and Limitations}
+Redis values are limited to $512\,$MB. R objects that exceed this size once
+serialized can't be stored in Redis.
+
+Redis is well-known as an exceptionally robust and high-performance key/value
+store. Although the rredis package uses the standard R connections
+interface (for maximum portability across all R platforms), it's performance as
+a Redis client is reasonable.  The ideas outlined in this section and the next
+will help you get the most performance out of the rredis package.
+
+A frequent cause for performance anxiety using the rredis package
+occurs when rapidly executing many smallish transactions. Consider the
+next example, run locally on a pretty wimpy Linux laptop:
+\begin{lstlisting}
+> library("rredis")
+> redisConnect()
+> t1 <- proc.time()
+> for(j in 1:100) redisSet("x", j)
+> print(proc.time() - t1)
+
+   user  system elapsed 
+  0.990   0.060   4.066 
+
+\end{lstlisting}
+That performance seems terrible. After all, isn't Redis capable of tens of
+thousands of transactions per second?
+
+There are at least three approaches to improving the performance of the last
+example: Redis pipelining (the best way), enable TCP\_NODELAY, or use
+Wush Wu's alternate hiredis-based support package for rredis or an alternative
+hiredis-based R client package.
+
+\subsection{Redis Pipelining}
+
+The rredis package supports Redis pipelining. Quoting from the Wiki
+page 
+\htmladdnormallink{http://redis.io/commands}{http://redis.io/commands}:
+\begin{quote}
+A Request/Response server can be implemented so that it is able to process new
+requests even if the client didn't already read the old responses. This way it
+is possible to send multiple commands to the server without waiting for the
+replies at all, and finally read the replies in a single step.
+\end{quote}
+
+Redis pipelining is enabled in the rredis package with the
+\verb+redisSetPipeline(TRUE)+ function. Once enabled, results are not
+immediately returned to the R client but instead cached at the Redis server
+until explicitly requested with the \verb+redisGetResponse+ function.
+
+Here is our example with pipelining enabled:
+\begin{lstlisting}
+> library("rredis")
+> redisConnect()
+> redisSetPipeline(TRUE)
+> t1 <- proc.time()
+> for(j in 1:100) redisSet("x", j)
+> resp <- redisGetResponse()
+> print(proc.time() - t1)
+
+   user  system elapsed 
+  0.115   0.020   0.161 
+
+\end{lstlisting}
+Now that's much better!
+
+You may find that it's inconvenient to always have to call \verb+getResponse+;
+thus pipelining is best reserved for circumstances similar to the above example
+that substantially benefit from it.
+
+\subsection{Enabling TCP\_NODELAY}
+
+Enabling the TCP\_NODELAY option is one performance approach that hiredis (the
+official Redis C library client) takes: see
+\htmladdnormallink{https://github.com/redis/hiredis}{https://github.com/redis/hiredis}.
+It disables the TCP Nagle
+congestion control algorithm and can flood your network with lots of Redis
+traffic resulting in heartburn for your system administrators. With that
+caveat, we recently added the ability to support this in the rredis package
+using standard R connections. Here is an example:
+
+\begin{lstlisting}
+> library("rredis")
+> redisConnect(nodelay=TRUE)
+> t1 <- proc.time()
+> for(j in 1:100) redisSet("x", j)
+> print(proc.time() - t1)
+
+   user  system elapsed 
+  0.135   0.025   0.207 
+
+\end{lstlisting}
+We see that enabling TCP\_NODELAY gives similar performance
+to the pipelined approach (at least on a wimpy laptop)
+without the added inconvenience of requiring \verb+getResponse+.
+
+\subsection{Alternate clients}
+Wush Wu and Dirk Eddelbuettel have an R client for Redis based on the hiredis
+C library that generally gives better performance than the rredis
+package a the expense of portability and disabling Nagle all the time. Wush
+is also working on a pluggable hiredis support package for the rredis
+package that should be available soon. Here are some links of interest:
+\htmladdnormallink{https://github.com/eddelbuettel/rhiredis}{https://github.com/eddelbuettel/rhiredis}\newline
+\htmladdnormallink{https://github.com/wush978/rredis}{https://github.com/wush978/rredis}
+
+
+\section{Transactions}
+Redis supports batch submission of multiple Redis operations.
+Aggregating operations with transactions can in many cases significantly
+increase performance. The following
+description is adapted from the Redis documentation at 
+\htmladdnormallink{http://redis.io}{http://redis.io}:
+
+The {\tt redisMulti}, {\tt redisExec}, {\tt redisDiscard} and {\tt redisWatch}
+form the foundation of transactions in Redis.  They allow the execution of a
+group of commands in a single step, with two important guarantees:
+
+\begin{enumerate}
+\item
+All the commands in a transaction are serialized and executed sequentially. It
+can never happen that a request issued by another client is served in the
+middle of the execution of a Redis transaction. This guarantees that the
+commands are executed as a single atomic operation.
+\item
+Either all of the commands or none are processed. The {\tt redisExec} command
+triggers the execution of all the commands in the transaction, so if a client
+loses the connection to the server in the context of a transaction before
+calling the {\tt redisMulti} command none of the operations are performed,
+instead if the {\tt redisExec} command is called, all the operations are
+performed. When using the append-only file Redis makes sure to use a single
+write(2) syscall to write the transaction on disk. However if the Redis server
+crashes or is killed by the system administrator in some hard way it is
+possible that only a partial number of operations are registered. Redis will
+detect this condition at restart, and will exit with an error. Using the
+redis-check-aof tool it is possible to fix the append only file that will
+remove the partial transaction so that the server can start again.
+\end{enumerate}
+
+Queued Redis commands may be discarded with the {\tt redisDiscard} function.
+Upon successful execution of a transaction, the results from all of the
+queued commands are returned as a list. 
+
+The {\tt redisWatch} function provides a check and set style
+conditional transaction. Use {\tt redisWatch} to monitor any number of Redis
+keys. If any watched key values change prior to calling {\tt redisExec} the
+entire queued sequence will be discarded. Conditioning transactions with
+{\tt redisWatch} is quite useful in multi-client asynchronous settings.
+
+The following extremely basic example illustrates transactions conditional
+on no change in value corresponding to the ``z'' key:
+\begin{lstlisting}
+> redisWatch("z")
+[1] "OK"
+> redisMulti()
+[1] "OK"
+> redisSet("x",runif(3))
+[1] "QUEUED"
+> redisSet("y",pi)
+[1] "QUEUED"
+> redisGet("x")
+[1] "QUEUED"
+> redisExec()
+[[1]]
+[1] "OK"
+
+[[2]]
+[1] "OK"
+
+[[3]]
+[1] 0.7620601 0.5982853 0.8274721
+\end{lstlisting}
+
+
+\section{Publish/Subscribe}
+
+The publish/subscribe functions let Redis clients reliably multicast (publish)
+messages over ``channels'' that any client may subscribe to. Channels are
+identified by name (character string). Use the {\tt redisSubscribe} function to
+subscribe to one or more channels.  Use the {\tt redisPublish} function to
+transmit messages over a channel.  Once subscribed, channels must be monitored
+for incoming messages using the {\tt redisGetResponse} function, usually in an
+event loop. Beware that the {\tt redisGetResponse} function indefinitely blocks
+for an incoming message on subscribed channels.
+
+Here is a simple example:
+
+\begin{lstlisting}
+> redisSubscribe("channel1")
+
+# The loop will receive three messages from "channel1":
+> for(j in 1:3) print(redisGetResponse())
+# A typical message might look like:
+[1]]
+[1] "message"
+
+[[2]]
+[1] "channel1"
+
+[[3]]
+[1] "message3"
+
+# Finally, unsubscribe to the channel:
+> redisUnsubscribe("channel1")
+\end{lstlisting}
+
+Note that the only Redis functions that may be used in between the
+{\tt redisSubscribe} and {\tt redisUnsubscribe} functions are 
+{\tt redisGetResponse}, {\tt redisSubscribe}, and {\tt redisMonitorChannels}
+functions.
+
+\section{Miscellaneous}
+We cover a few miscellaneous features of the package here.
+
+\subsection{Renaming Redis Commands}
+
+Redis may be configured with renamed commands.  This is one of the more obscure
+features of Redis.  For example, suppose that we desire to rename the Redis
+commands "SET" and "GET" as "NEWSET" and "NETGET," respectively.
+That can be achieved by adding the following two lines to your
+redis.conf file:
+
+\begin{lstlisting}
+rename-command SET NEWSET
+rename-command GET NEWGET
+\end{lstlisting}
+
+Note that after restarting Redis with this configuration, the
+\verb+redisSet+ and \verb+redisGet+ won't work anymore since those
+commands have been renamed.
+
+In order to use the new names in the rredis package, create an R list
+with the replacement names as follows and place that list in a special
+environment used by the rredis package used to store state associated with
+open Redis connections:
+
+\begin{lstlisting}
+> assign("rename", list(SET="NEWSET", GET="NEWGET"), envir=rredis:::.redisEnv)
+\end{lstlisting}
+
+And then the normal \verb+redisSet+ and \verb+redisGet+ functions work again!
+Similarly rename any other renamed Redis commands. Note that this renaming
+strategy applies to the current running R session (it applies to
+{\it all} open Redis connections in that session). 
+
+\subsection{Authentication}
+Redis supports a really basic password authentication scheme. If you use
+this, it's probably a good idea to use stunnel or an SSH tunnel or something
+similar to encrypt all network traffic between Redis clients and Redis.
+Otherwise passwords are transmitted in clear text over the network.
+
+Use the \verb+redisAuth(password)+ function to authenticate with Redis, or
+optionally supply the \verb+password+ argument to the \verb+redisConnect+
+function.
+
+\end{document}
