@@ -1,6 +1,6 @@
 Package: shinyjs
 Title: Easily Improve the User Experience of Your Shiny Apps in Seconds
-Version: 0.9.0.9000
+Version: 0.9
 Authors@R: person("Dean", "Attali", email = "daattali@gmail.com",
     role = c("aut", "cre"))
 Description: Perform common useful JavaScript operations in Shiny apps that will
@@ -21,16 +21,10 @@ SystemRequirements: pandoc with https support
 LazyData: true
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
+NeedsCompilation: no
+Packaged: 2016-12-26 06:51:27 UTC; Dean
 Author: Dean Attali [aut, cre]
 Maintainer: Dean Attali <daattali@gmail.com>
-Built: R 3.2.1; ; 2017-03-21 19:37:31 UTC; unix
-RemoteType: github
-RemoteHost: https://api.github.com
-RemoteRepo: shinyjs
-RemoteUsername: daattali
-RemoteRef: master
-RemoteSha: 2b50604be40f9314ad537d08ffdf3acd8cc5bd0d
-GithubRepo: shinyjs
-GithubUsername: daattali
-GithubRef: master
-GithubSHA1: 2b50604be40f9314ad537d08ffdf3acd8cc5bd0d
+Repository: CRAN
+Date/Publication: 2016-12-26 10:34:31
+Built: R 3.2.1; ; 2017-04-19 07:40:57 UTC; unix

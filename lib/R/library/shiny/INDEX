@@ -35,7 +35,9 @@ fillRow                 Flex Box-based row/column layouts
 fixedPage               Create a page with a fixed layout
 flowLayout              Flow layout
 fluidPage               Create a page with fluid layout
-freezeReactiveValue     Freeze a reactive value
+freezeReactiveVal       Freeze a reactive value
+getQueryString          Get the query string / hash component from the
+                        URL
 getShinyOption          Get or set Shiny options
 headerPanel             Create a header panel
 helpText                Create a help text element
@@ -87,6 +89,7 @@ reactiveTable           Table output (deprecated)
 reactiveText            Text output (deprecated)
 reactiveTimer           Timer
 reactiveUI              UI output (deprecated)
+reactiveVal             Create a (single) reactive value
 reactiveValues          Create an object for storing reactive values
 reactiveValuesToList    Convert a reactivevalues object to a list
 registerInputHandler    Register an Input Handler
@@ -126,6 +129,8 @@ sidebarLayout           Layout a sidebar and main area
 sidebarPanel            Create a sidebar panel
 singleton               Include content only once
 sliderInput             Slider Input Widget
+snapshotExclude         Mark an output to be excluded from test
+                        snapshots
 splitLayout             Split layout
 stopApp                 Stop the currently running Shiny app
 submitButton            Create a submit button

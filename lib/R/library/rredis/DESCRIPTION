@@ -13,4 +13,4 @@ NeedsCompilation: yes
 Packaged: 2015-07-05 14:12:41 UTC; blewis
 Repository: CRAN
 Date/Publication: 2015-07-05 23:37:49
-Built: R 3.2.1; x86_64-unknown-linux-gnu; 2017-03-21 19:46:30 UTC; unix
+Built: R 3.2.1; x86_64-unknown-linux-gnu; 2017-04-19 07:44:38 UTC; unix

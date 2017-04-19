@@ -1,7 +1,3 @@
-# shinyjs 0.9.0.9000
-
-- fixed bug where logjs()+showLog() wasn't working when app first runs
-
 # shinyjs 0.9
 
 2016-12-26

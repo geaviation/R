@@ -2,7 +2,7 @@ Package: leaflet
 Type: Package
 Title: Create Interactive Web Maps with the JavaScript 'Leaflet'
         Library
-Version: 1.1.0
+Version: 1.1.0.9000
 Date: 2017-02-17
 Authors@R: c(
       person("Joe", "Cheng", email = "joe@rstudio.com", role = c("aut", "cre")),
@@ -45,8 +45,6 @@ Suggests: knitr, maps, sf, shiny, testit (>= 0.4), rgdal, rgeos, R6,
         RJSONIO, purrr, testthat
 RoxygenNote: 5.0.1
 LazyData: true
-NeedsCompilation: no
-Packaged: 2017-02-21 16:56:25 UTC; jcheng
 Author: Joe Cheng [aut, cre],
   Bhaskar Karambelkar [aut],
   Yihui Xie [aut],
@@ -70,6 +68,14 @@ Author: Joe Cheng [aut, cre],
   Mapbox [ctb, cph] (leaflet-omnivore plugin),
   Michael Bostock [ctb, cph] (topojson),
   RStudio [cph]
-Repository: CRAN
-Date/Publication: 2017-02-21 19:08:12
-Built: R 3.2.1; ; 2017-03-21 19:43:44 UTC; unix
+Built: R 3.2.1; ; 2017-04-19 07:43:50 UTC; unix
+RemoteType: github
+RemoteHost: https://api.github.com
+RemoteRepo: leaflet
+RemoteUsername: rstudio
+RemoteRef: master
+RemoteSha: 00bb41c179356f0452b09b02fd03bf854c00d322
+GithubRepo: leaflet
+GithubUsername: rstudio
+GithubRef: master
+GithubSHA1: 00bb41c179356f0452b09b02fd03bf854c00d322

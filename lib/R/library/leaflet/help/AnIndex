@@ -57,6 +57,7 @@ filterNULL	filterNULL
 fitBounds	map-methods
 gadmCHE	gadmCHE
 getMapData	getMapData
+groupOptions	groupOptions
 hideGroup	showGroup
 highlightOptions	map-layers
 iconList	iconList
